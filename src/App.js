@@ -1,25 +1,34 @@
-import logo from './logo.svg';
-import './App.css';
+import {useState} from 'react';
+import Month from './modules/month';
+import Year from './modules/year';
+import DaysGrid from './modules/daysGrid';
+import moment from 'moment';
+import './css/style.css';
+moment().format();
 
-function App() {
+
+const App = () => {
+  
+
+  const [currentMoment, setCurrentMoment] = useState(moment());
+
+  //Sets the current month to the current displayed month +1/-1.
+  function addMonth(param){
+    
+    const newMoment = currentMoment.clone().add(param, "month");
+    setCurrentMoment(newMoment);
+    }
+    
+
+    
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <section>
+      <h1>Calendar</h1>
+      <Year year={currentMoment}/>
+      <Month month={currentMoment} addMonth={addMonth}/>
+      <DaysGrid days={currentMoment}/>
+    </section>
+  )
 }
 
 export default App;
