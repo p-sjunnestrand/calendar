@@ -2,6 +2,8 @@ import { useState } from "react";
 
 const Form = (props) => {
 
+    // console.log(props.date);
+
     const [taskInput, setTaskInput] = useState();
 
     const handleChange = (e) => {setTaskInput(e.target.value);}
@@ -10,9 +12,9 @@ const Form = (props) => {
         e.preventDefault();
         const newDeadline = {
             task: taskInput,
-            date: props.date,
+            day: props.date.format("D"),
         }
-        props.addNewDeadline(newDeadline);
+        props.addNewDeadline(newDeadline, props.date.format("YYYYMM"));
     }
 
     return(

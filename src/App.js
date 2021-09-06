@@ -18,18 +18,19 @@ const App = () => {
 
   const [currentMoment, setCurrentMoment] = useState(moment());
   const [deadlines, setDeadlines] = useState([]);
-  const [newItem, setNewItem] = useState();
+  const [lastUpdatedItem, setLastUpdatedItem] = useState();
+  const [noScroll, setNoScroll] = useState(false);
   
   useEffect(() => {
     const month = currentMoment.format("YYYYMM");
-    console.log(month);
+    // console.log(month);
     fetch(`http://localhost:4000/${month}`)
     .then(response => response.json())
     .then(data => {
-      console.log(data)
+      // console.log(data)
       setDeadlines(data)
     })
-  }, [newItem]);
+  }, [lastUpdatedItem, currentMoment]);
 
   // console.log(typeof(currentMoment));
 
@@ -38,37 +39,65 @@ const App = () => {
     
     const newMoment = currentMoment.clone().add(param, "month");
     setCurrentMoment(newMoment);
-    }
+  };
     
-    const addNewDeadline = (param) => {
-      const currentMonth = param.date.format("YYYYMM");
-      console.log(currentMonth);
-      fetch(`http://localhost:4000/${currentMonth}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(param)
-      })
-      .then((response) => {
-        if(!response.ok){
-          throw new Error('Something went wrong when contacting the server');
-        } else {
-          return response.json();
-        }
-      })
-      .then(data => {
-        console.log(data.task);
-        setNewItem(data)
-      })
-      
+    
+  const addNewDeadline = (objParam, monthParam) => {
+    // const currentMonth = param.date.format("YYYYMM");
+    // console.log(param);
+    // console.log(currentMonth);
+    fetch(`http://localhost:4000/${monthParam}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(objParam)
+    })
+    .then((response) => {
+      if(!response.ok){
+        throw new Error('Something went wrong when contacting the server');
+      } else {
+        return response.json();
+      }
+    })
+    .then(data => {
+      // console.log(data.task);
+      setLastUpdatedItem(data)
+    })
+    .catch(error => {
+      console.log(error);
+    })
+  };
+    
+  const changeScroll = () => {
+    setNoScroll(noScroll => !noScroll);
   }
-    
+
+  const deleteTask = (task) => {
+    console.log(task);
+    fetch(`http://localhost:4000/${task._id}`, {
+      method: "DELETE",
+    })
+    .then((response) => {
+      if(!response.ok){
+        throw new Error('Something went wrong when contacting the server');
+      } else {
+        return response.json()
+      }
+    })
+    .then(data => {
+      setLastUpdatedItem(data);
+    })
+    .catch(error => {
+      console.log(error);
+    })
+  }
+
   return (
-    <section>
+    <section className={noScroll?"noScroll":null}>
       <h1>Calendar</h1>
-      <Calendar currentMoment={currentMoment} addMonth={addMonth} addNewDeadline={addNewDeadline}/>
-      <Todo/>
+      <Calendar currentMoment={currentMoment} addMonth={addMonth} addNewDeadline={addNewDeadline} deadlines={deadlines} changeScroll={changeScroll}/>
+      <Todo deadlines={deadlines} deleteTask={deleteTask}/>
       {/* <Year year={currentMoment}/>
       <Month month={currentMoment} addMonth={addMonth}/>
       <DaysGrid days={currentMoment}/> */}

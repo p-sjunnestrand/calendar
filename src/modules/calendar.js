@@ -10,8 +10,14 @@ const Calendar = (props) => {
     // const [deadlines, setDeadlines] = useState([]);
 
     //Opens full view of clicked day.
-    const openDay = (param) => {setChosenDay(param);}
-    const closeDay = () => {setChosenDay(undefined);}
+    const openDay = (param) => {
+        setChosenDay(param);
+        props.changeScroll();
+    }
+    const closeDay = () => {
+        setChosenDay(undefined);
+        props.changeScroll();
+    }
 
     // const addNewDeadline = (param) => {
     //     setDeadlines([...deadlines, param])
@@ -21,7 +27,7 @@ const Calendar = (props) => {
         <>
             <Year year={props.currentMoment}/>
             <Month month={props.currentMoment} addMonth={props.addMonth}/>
-            <DaysGrid days={props.currentMoment} dayClick={openDay}/>
+            <DaysGrid days={props.currentMoment} deadlines={props.deadlines} chosenDay={chosenDay} dayClick={openDay}/>
             {chosenDay ? <DayView day={chosenDay} closeDay={closeDay} addNewDeadline={props.addNewDeadline}/> : null}
         </>
     )

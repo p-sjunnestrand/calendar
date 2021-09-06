@@ -2,6 +2,7 @@ import Day from "./day";
 
 const DaysGrid = (props) => {
 
+    //Get the number of days in current displayed month.
     const daysInMonth = props.days.daysInMonth();
 
     //Creates array of days based on the number of days in displayed month.
@@ -23,14 +24,17 @@ const DaysGrid = (props) => {
     }
     // console.log("first day", firstDay.isoWeekday());
     // console.log(daysArray);
-
+    // for(let i = 1; i < 8; i++){
+    //    return props.days.clone().isoWeekday(i);
+    // }
     
     
     return (
         <section>
-            <ul>
+
+            <ul className="dayGrid">
                 {daysArray.map((day) => {
-                    return (<Day key={day} day={day} days={props.days} dayClick={props.dayClick}/>)
+                    return (<Day key={day} day={day} days={props.days} deadlines={props.deadlines} dayClick={props.dayClick}/>)
                 })}
             </ul>
         </section>
