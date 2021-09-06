@@ -1,1 +1,1 @@
-ul{width:400px;display:flex;flex-wrap:wrap}li{list-style-type:none;cursor:pointer;width:50px;border:1px solid black}
+ul{width:400px;display:flex;flex-wrap:wrap}li{list-style-type:none;cursor:pointer;width:50px}.currentMonth{border:1px solid black}.lastMonth{color:grey;border:1px solid grey}#dayViewBackground{width:100vw;height:100vh;position:absolute;top:0;left:0;background-color:rgba(0,0,0,0.7)}#dayViewWrapper{background-color:white;width:90%;margin:2em auto}

@@ -6,27 +6,31 @@ const DaysGrid = (props) => {
 
     //Creates array of days based on the number of days in displayed month.
     let daysArray = []
-    for(let i = 0; i < daysInMonth; i++) {
-        daysArray.push(i + 1);
+    for(let i = 1; i <= daysInMonth; i++) {
+        daysArray.push(i);
     }
 
     //Creates buffer days for the beginning of the month so that the placement of the first day always matches its weekday.
     //It's a bit ugly, but works.
     const firstDay = props.days.startOf("month")
     if(firstDay.isoWeekday() !== 1){
-        const pastMonthDays = -1 + firstDay.isoWeekday();
-        for(let i = 0; i < pastMonthDays; i++){
-            daysArray.unshift(null);
+        const pastMonthDays = (firstDay.isoWeekday() -2) * -1;
+        // console.log(pastMonthDays);
+        for(let i = 0; i >= pastMonthDays; i--){
+            // console.log(i);
+            daysArray.unshift(i);
         }
     }
+    // console.log("first day", firstDay.isoWeekday());
+    // console.log(daysArray);
+
+    
     
     return (
         <section>
             <ul>
-                {daysArray.map((day, index) => {
-                    //Yeeeeaaaaah, I don't know about this key part, but it works. It is what it is. Take it or leave it.
-                    //The -5 part is so that two items get the same key.
-                    return (<Day key={day === null ? index -5 : day} id={ day === null ? index : day} day={day}/>)
+                {daysArray.map((day) => {
+                    return (<Day key={day} day={day} days={props.days} dayClick={props.dayClick}/>)
                 })}
             </ul>
         </section>
