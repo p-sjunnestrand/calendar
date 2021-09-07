@@ -1,11 +1,6 @@
 import {useState, useEffect} from 'react';
-// import Month from './modules/month';
-// import Year from './modules/year';
-// import DaysGrid from './modules/daysGrid';
-// import CalendarView from './modules/calendarView';
 import Calendar from './modules/calendar';
 import Todo from './modules/todo';
-// import DayView from './modules/dayView';
 import moment from 'moment';
 import './css/style.css';
 moment().format();
@@ -18,8 +13,8 @@ const App = () => {
 
   const [currentMoment, setCurrentMoment] = useState(moment());
   const [deadlines, setDeadlines] = useState([]);
-  const [lastUpdatedItem, setLastUpdatedItem] = useState();
   const [noScroll, setNoScroll] = useState(false);
+  // const [holidays, setHolidays] = useState([]);
   
   useEffect(() => {
     const month = currentMoment.format("YYYYMM");
@@ -27,11 +22,32 @@ const App = () => {
     fetch(`http://localhost:4000/${month}`)
     .then(response => response.json())
     .then(data => {
-      // console.log(data)
+      console.log(data)
       setDeadlines(data)
+      // const year = currentMoment.format('YYYY');
+      // const month = currentMoment.format('MM');
+      // fetch(`http://sholiday.faboul.se/dagar/v2.1/${year}/${month}`)
+      // .then(response => response.json())
+      // .then(data => {
+      //   console.log(data);
+      //   setHolidays(data);
+      // });
     })
-  }, [lastUpdatedItem, currentMoment]);
+  }, [currentMoment]);
 
+  // useEffect(() => {
+  //   // const year = currentMoment.format('YYYY');
+  //   // const month = currentMoment.format('MM');
+  //   // fetch(`http://sholiday.faboul.se/dagar/v2.1/${year}/${month}`)
+  //   const month = currentMoment.format("YYYYMM");
+  //   // console.log(month);
+  //   fetch(`http://localhost:4000/${month}`)
+  //   .then(response => response.json())
+  //   .then(data => {
+  //     console.log(data);
+  //     // setHolidays(data);
+  //   }, []);
+  // })
   // console.log(typeof(currentMoment));
 
   //Sets the current month to the current displayed month +1/-1.
@@ -61,8 +77,8 @@ const App = () => {
       }
     })
     .then(data => {
-      // console.log(data.task);
-      setLastUpdatedItem(data)
+      console.log("new task", data);
+      setDeadlines([...deadlines, data])
     })
     .catch(error => {
       console.log(error);
@@ -86,7 +102,9 @@ const App = () => {
       }
     })
     .then(data => {
-      setLastUpdatedItem(data);
+      const newDeadlines = deadlines.filter(item => item._id !== task._id);
+      console.log(newDeadlines);
+      setDeadlines(newDeadlines);
     })
     .catch(error => {
       console.log(error);
@@ -96,11 +114,8 @@ const App = () => {
   return (
     <section className={noScroll?"noScroll":null}>
       <h1>Calendar</h1>
-      <Calendar currentMoment={currentMoment} addMonth={addMonth} addNewDeadline={addNewDeadline} deadlines={deadlines} changeScroll={changeScroll}/>
+      <Calendar currentMoment={currentMoment} deadlines={deadlines} addMonth={addMonth} addNewDeadline={addNewDeadline} changeScroll={changeScroll}/>
       <Todo deadlines={deadlines} deleteTask={deleteTask}/>
-      {/* <Year year={currentMoment}/>
-      <Month month={currentMoment} addMonth={addMonth}/>
-      <DaysGrid days={currentMoment}/> */}
     </section>
   )
 }

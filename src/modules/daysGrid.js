@@ -1,4 +1,5 @@
 import Day from "./day";
+import { useEffect } from "react";
 
 const DaysGrid = (props) => {
 
@@ -22,19 +23,32 @@ const DaysGrid = (props) => {
             daysArray.unshift(i);
         }
     }
-    // console.log("first day", firstDay.isoWeekday());
-    // console.log(daysArray);
-    // for(let i = 1; i < 8; i++){
-    //    return props.days.clone().isoWeekday(i);
-    // }
-    
-    
+    useEffect(() => {
+        console.log(daysArray);
+        if(props.holidays) {
+            for(const day in daysArray){
+                if(daysArray[day] > 0){
+                    console.log(daysArray[day]-1);
+                    console.log(props.holidays[daysArray[day] -1]);
+                    // if("helgdag" in props.holidays[daysArray[day -1]]){
+                    //     console.log("helgdag!");
+                    // }
+
+                }
+            }
+            // console.log(props.holidays);
+            // if(helgdag in props.holidays[props.day -1]){
+            //     console.log(props.holidays[props.day -1].helgdag);
+            // }
+        }
+    }, [props.holidays]);
+    // console.log(props.holidays ? props.holidays : null);
     return (
         <section>
 
             <ul className="dayGrid">
                 {daysArray.map((day) => {
-                    return (<Day key={day} day={day} days={props.days} deadlines={props.deadlines} dayClick={props.dayClick}/>)
+                    return (<Day key={day} day={day} days={props.days} holidays={props.holidays ? props.holidays : null} deadlines={props.deadlines}  dayClick={props.dayClick}/>)
                 })}
             </ul>
         </section>
