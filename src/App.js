@@ -2,6 +2,7 @@ import {useState, useEffect} from 'react';
 import Calendar from './modules/calendar';
 import Todo from './modules/todo';
 import moment from 'moment';
+// require('/max-mckinnon-c9OCWLka764-unsplash.jpg/');
 import './css/style.css';
 moment().format();
 
@@ -14,41 +15,18 @@ const App = () => {
   const [currentMoment, setCurrentMoment] = useState(moment());
   const [deadlines, setDeadlines] = useState([]);
   const [noScroll, setNoScroll] = useState(false);
-  // const [holidays, setHolidays] = useState([]);
   
+  //Fetches deadlines of current displayed month from server.
   useEffect(() => {
     const month = currentMoment.format("YYYYMM");
     // console.log(month);
     fetch(`http://localhost:4000/${month}`)
     .then(response => response.json())
     .then(data => {
-      console.log(data)
+      // console.log(data)
       setDeadlines(data)
-      // const year = currentMoment.format('YYYY');
-      // const month = currentMoment.format('MM');
-      // fetch(`http://sholiday.faboul.se/dagar/v2.1/${year}/${month}`)
-      // .then(response => response.json())
-      // .then(data => {
-      //   console.log(data);
-      //   setHolidays(data);
-      // });
     })
   }, [currentMoment]);
-
-  // useEffect(() => {
-  //   // const year = currentMoment.format('YYYY');
-  //   // const month = currentMoment.format('MM');
-  //   // fetch(`http://sholiday.faboul.se/dagar/v2.1/${year}/${month}`)
-  //   const month = currentMoment.format("YYYYMM");
-  //   // console.log(month);
-  //   fetch(`http://localhost:4000/${month}`)
-  //   .then(response => response.json())
-  //   .then(data => {
-  //     console.log(data);
-  //     // setHolidays(data);
-  //   }, []);
-  // })
-  // console.log(typeof(currentMoment));
 
   //Sets the current month to the current displayed month +1/-1.
   function addMonth(param){
@@ -57,7 +35,7 @@ const App = () => {
     setCurrentMoment(newMoment);
   };
     
-    
+  //Posts new deadline to server.
   const addNewDeadline = (objParam, monthParam) => {
     // const currentMonth = param.date.format("YYYYMM");
     // console.log(param);
@@ -76,6 +54,7 @@ const App = () => {
         return response.json();
       }
     })
+    //Sets new deadline to state.
     .then(data => {
       console.log("new task", data);
       setDeadlines([...deadlines, data])
@@ -85,10 +64,12 @@ const App = () => {
     })
   };
     
+  //Used to disable scrolling on body when full day info is displayed.
   const changeScroll = () => {
     setNoScroll(noScroll => !noScroll);
   }
 
+  //Deletes deadline from server, filters the deleted item out of state and resets state.
   const deleteTask = (task) => {
     console.log(task);
     fetch(`http://localhost:4000/${task._id}`, {
@@ -112,11 +93,11 @@ const App = () => {
   }
 
   return (
-    <section className={noScroll?"noScroll":null}>
-      <h1>Calendar</h1>
+    <main className={noScroll?"noScroll":null} style={{backgroundImage: "url(/max-mckinnon-c9OCWLka764-unsplash.jpg)"}}>
+      {/* <h1>Calendar</h1> */}
       <Calendar currentMoment={currentMoment} deadlines={deadlines} addMonth={addMonth} addNewDeadline={addNewDeadline} changeScroll={changeScroll}/>
-      <Todo deadlines={deadlines} deleteTask={deleteTask}/>
-    </section>
+      <Todo deadlines={deadlines} moment={currentMoment} deleteTask={deleteTask}/>
+    </main>
   )
 }
 

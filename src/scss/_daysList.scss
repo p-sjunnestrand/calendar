@@ -1,20 +1,18 @@
-*{
-    margin: 0;
-}
-
 .dayGrid{
-    width: 1050px;
+    width: 875px;
     display: flex;
     flex-wrap: wrap;
+    color: white;
 }
-li{
-    list-style-type: none;
+.calendarDay{
+    // list-style-type: none;
     cursor: pointer;
-    width: 150px;
-    height: 150px;
+    width: 125px;
+    height: 125px;
+    box-sizing: border-box;
 }
 .currentMonth{
-    border: 1px solid black;  
+    border: 1px solid white;  
 }
 .lastMonth{
     color: grey;
@@ -37,15 +35,6 @@ li{
     width: auto;
     height: auto;
 }
-.noScroll{
-    height: 100vh;
-    overflow: hidden;
-}
-.todo{
-    height: auto;
-    size: auto;
-    cursor: default;
-}
-button{
-    cursor: pointer;
+.dayNumber{
+    color:white;
 }

@@ -15,7 +15,7 @@ const Calendar = (props) => {
     useEffect(() => {
         const year = props.currentMoment.format('YYYY');
         const month = props.currentMoment.format('MM');
-        console.log(`http://sholiday.faboul.se/dagar/v2.1/${year}/${month}`);
+        // console.log(`http://sholiday.faboul.se/dagar/v2.1/${year}/${month}`);
         fetch(`http://sholiday.faboul.se/dagar/v2.1/${year}/${month}`)
         .then(response => response.json())
         .then(data => {
@@ -41,12 +41,12 @@ const Calendar = (props) => {
     // }
 
     return (
-        <>
+        <article>
             <Year year={props.currentMoment}/>
             <Month month={props.currentMoment} addMonth={props.addMonth}/>
             <DaysGrid days={props.currentMoment} deadlines={props.deadlines} chosenDay={chosenDay} holidays={holidays ? holidays : null} dayClick={openDay}/>
             {chosenDay ? <DayView day={chosenDay} closeDay={closeDay} addNewDeadline={props.addNewDeadline}/> : null}
-        </>
+        </article>
     )
 }
 

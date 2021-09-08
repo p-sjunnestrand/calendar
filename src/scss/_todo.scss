@@ -1,0 +1,26 @@
+.todo{
+    // height: auto;
+    // size: auto;
+    // cursor: default;
+    width: auto;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+
+    button{
+        border-radius: 50%;
+        height: 1.5rem;
+        width: 1.5rem;
+        border: 1px solid black;
+        background-color: lime;
+    }
+}
+.passedDay{
+    background-color: pink;
+}
+.sameDay{
+    background-color: blue;
+}
+.futureDay{
+    background-color: green;
+}

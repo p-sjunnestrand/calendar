@@ -1,0 +1,27 @@
+*{
+    margin: 0;
+    font-family: sans-serif;
+}
+.noScroll{
+    height: 100vh;
+    overflow: hidden;
+}
+button{
+    cursor: pointer;
+}
+li{
+    list-style-type: none;
+}
+main{
+    display: flex;
+    justify-content:space-evenly;
+    flex-wrap: wrap;
+    // background-image: '../';
+    // background-image: url('/max-mckinnon-c9OCWLka764-unsplash.jpg/');
+    background-size: cover;
+    background-position: center;
+}
+
+ul{
+    padding: 0;
+}

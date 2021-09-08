@@ -1,10 +1,11 @@
 import Day from "./day";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 
 const DaysGrid = (props) => {
 
     //Get the number of days in current displayed month.
     const daysInMonth = props.days.daysInMonth();
+    const [monthlyHolidays, setMonthlyHolidays] = useState([]);
 
     //Creates array of days based on the number of days in displayed month.
     let daysArray = []
@@ -24,31 +25,35 @@ const DaysGrid = (props) => {
         }
     }
     useEffect(() => {
-        console.log(daysArray);
+        // console.log(daysArray);
+        setMonthlyHolidays([]);
         if(props.holidays) {
             for(const day in daysArray){
                 if(daysArray[day] > 0){
                     console.log(daysArray[day]-1);
                     console.log(props.holidays[daysArray[day] -1]);
-                    // if("helgdag" in props.holidays[daysArray[day -1]]){
-                    //     console.log("helgdag!");
-                    // }
-
+                    setHolidayState(props.holidays[daysArray[day]-1], day);
+                    
                 }
             }
-            // console.log(props.holidays);
-            // if(helgdag in props.holidays[props.day -1]){
-            //     console.log(props.holidays[props.day -1].helgdag);
-            // }
         }
+        
     }, [props.holidays]);
-    // console.log(props.holidays ? props.holidays : null);
+    
+    const setHolidayState = (array, day) => {
+        if("helgdagsafton" in array){
+            setMonthlyHolidays(prevState => { return [...prevState, {date: parseInt(day), holiday: array.helgdagsafton}]})
+        }
+        if("helgdag" in array){
+            setMonthlyHolidays(prevState => { return [...prevState, {date: parseInt(day), holiday: array.helgdag}]})
+        }
+    }
     return (
         <section>
 
             <ul className="dayGrid">
                 {daysArray.map((day) => {
-                    return (<Day key={day} day={day} days={props.days} holidays={props.holidays ? props.holidays : null} deadlines={props.deadlines}  dayClick={props.dayClick}/>)
+                    return (<Day key={day} day={day} days={props.days} holidays={monthlyHolidays ? monthlyHolidays : null} deadlines={props.deadlines}  dayClick={props.dayClick}/>)
                 })}
             </ul>
         </section>
