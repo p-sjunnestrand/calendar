@@ -1,7 +1,7 @@
 const Year = (props) => {
 
     return(
-        <h3>{props.year.format("YYYY").toString()}</h3>
+        <h3 className="yearHeader">{props.year.format("YYYY").toString()}</h3>
     )
 }
 

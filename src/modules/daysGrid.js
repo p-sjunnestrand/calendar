@@ -9,7 +9,7 @@ const DaysGrid = (props) => {
 
     //Creates array of days based on the number of days in displayed month.
     let daysArray = []
-    for(let i = 1; i <= daysInMonth; i++) {
+    for(let i = 0; i < daysInMonth; i++) {
         daysArray.push(i);
     }
 
@@ -17,43 +17,39 @@ const DaysGrid = (props) => {
     //It's a bit ugly, but works.
     const firstDay = props.days.startOf("month")
     if(firstDay.isoWeekday() !== 1){
-        const pastMonthDays = (firstDay.isoWeekday() -2) * -1;
-        // console.log(pastMonthDays);
-        for(let i = 0; i >= pastMonthDays; i--){
-            // console.log(i);
+        const pastMonthDays = (firstDay.isoWeekday() -1) * -1;
+        for(let i = -1; i >= pastMonthDays; i--){
             daysArray.unshift(i);
         }
     }
+    // console.log("daysArray: ", daysArray);
     useEffect(() => {
-        // console.log(daysArray);
-        setMonthlyHolidays([]);
-        if(props.holidays) {
-            for(const day in daysArray){
-                if(daysArray[day] > 0){
-                    console.log(daysArray[day]-1);
-                    console.log(props.holidays[daysArray[day] -1]);
-                    setHolidayState(props.holidays[daysArray[day]-1], day);
-                    
-                }
+        
+        //Grabs only holidays and nights before holidays from the "holidays"-props and pushes only holidays for current month to state.
+        if(props.holidays && props.holidays.length > 0) {
+            const newHolidayState = []
+            for(let day = 0; day < daysArray.length; day++){
+                if(props.holidays[daysArray[day]]){
+                    if("helgdag" in props.holidays[daysArray[day]]){
+                        newHolidayState.push({date: parseInt(daysArray[day]+1), holiday: props.holidays[daysArray[day]].helgdag})
+                    }
+                    if("helgdagsafton" in props.holidays[daysArray[day]]){
+                        newHolidayState.push({date: parseInt(daysArray[day]+1), holiday: props.holidays[daysArray[day]].helgdagsafton})
+                    }
+                } 
             }
+            setMonthlyHolidays(newHolidayState);
         }
         
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [props.holidays]);
     
-    const setHolidayState = (array, day) => {
-        if("helgdagsafton" in array){
-            setMonthlyHolidays(prevState => { return [...prevState, {date: parseInt(day), holiday: array.helgdagsafton}]})
-        }
-        if("helgdag" in array){
-            setMonthlyHolidays(prevState => { return [...prevState, {date: parseInt(day), holiday: array.helgdag}]})
-        }
-    }
     return (
         <section>
 
             <ul className="dayGrid">
                 {daysArray.map((day) => {
-                    return (<Day key={day} day={day} days={props.days} holidays={monthlyHolidays ? monthlyHolidays : null} deadlines={props.deadlines}  dayClick={props.dayClick}/>)
+                    return (<Day key={day} day={day} days={props.days} deadlines={props.deadlines} holidays={monthlyHolidays} dayClick={props.dayClick}/>)
                 })}
             </ul>
         </section>

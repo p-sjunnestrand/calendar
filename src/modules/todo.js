@@ -5,18 +5,9 @@ const Todo = (props) => {
 
     const [todaysMoment] = useState(moment());
 
-    props.deadlines.sort((a, b) => {
-        return a.day - b.day;
-    });
+    // console.log("sorted deadlines: ", props.deadlines);
 
-    console.log("sorted deadlines: ", props.deadlines);
-    console.log(todaysMoment.format("YYYY/MM/DD"));
-
-
-    // const chooseClass = () => {
-        
-    // }
-    //Gives each deadline in list different text & className based on whether the deadline has passed or not.
+    // Gives each deadline in list different text & className based on whether the deadline has passed or not.
     const checkDeadline = (day, type) => {
         const calculatedDeadline = parseInt(day) - todaysMoment.format("D");
 
@@ -45,8 +36,8 @@ const Todo = (props) => {
         )
     })
     return(
-        <article>
-            <h2>Todo</h2>
+        <article className="deadlinesArticle">
+            <h2>Deadlines</h2>
             <ul>
                 {deadlinesThisMonth}
                 {/* {props.deadlines.map(item => {

@@ -16,12 +16,37 @@ main{
     display: flex;
     justify-content:space-evenly;
     flex-wrap: wrap;
-    // background-image: '../';
-    // background-image: url('/max-mckinnon-c9OCWLka764-unsplash.jpg/');
-    background-size: cover;
-    background-position: center;
+    // background-size: cover;
+    // background-position: center;
+    background-color: black;
 }
 
 ul{
     padding: 0;
+}
+.yearHeader{
+    color: white;
+    font-size: 3rem;
+}
+.calendarArticle{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.monthDiv{
+    color: white;
+    display: flex;
+    min-width: 200px;
+    justify-content: space-between;
+}
+.changeMonth{
+    position: relative;
+    cursor: pointer;
+    // border: 1px solid black;
+    // width: auto;
+    // height: auto;
+    text-align: center;
+    font-size: 2em;
+    top: -8px;
+    color: cyan;
 }
