@@ -26,7 +26,7 @@ const Calendar = (props) => {
             <Year year={props.currentMoment}/>
             <Month month={props.currentMoment} addMonth={props.addMonth}/>
             <DaysGrid days={props.currentMoment} deadlines={props.deadlines} holidays={props.holidays} chosenDay={chosenDay} dayClick={openDay}/>
-            {chosenDay ? <DayView day={chosenDay} closeDay={closeDay} addNewDeadline={props.addNewDeadline}/> : null}
+            {chosenDay ? <DayView day={chosenDay} deadlines={props.deadlines} closeDay={closeDay} addNewDeadline={props.addNewDeadline}/> : null}
         </article>
     )
 }
