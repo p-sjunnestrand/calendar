@@ -28,7 +28,7 @@ const App = () => {
     const month = currentMoment.format('MM');
 
     //Fetches holidays for current displayed month.
-    fetch(`http://sholiday.faboul.se/dagar/v2.1/${year}/${month}`)
+    fetch(`https://sholiday.faboul.se/dagar/v2.1/${year}/${month}`)
     .then(response => response.json())
     .then(data => {
         // console.log(data.dagar);
@@ -60,7 +60,7 @@ const App = () => {
         return response.json();
       }
     })
-    
+
     //Sets new deadline to state.
     .then(data => {
       console.log("new task", data);
